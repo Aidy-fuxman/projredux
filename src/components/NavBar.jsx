@@ -1,39 +1,57 @@
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { userOut } from "../features/userSlice";
-import { useDispatch } from 'react-redux';
 import { useState } from "react";
-import SignIn from "../pages/SignIn"; // הוספת SignIn
+import SignIn from "../pages/SignIn";
+import { AppBar, Toolbar, Button, IconButton, Box, Typography } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import HomeIcon from "@mui/icons-material/Home";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
 const NavBar = () => {
-    let cUser = useSelector(state => state.user.currentUser);
+    let cUser = useSelector((state) => state.user.currentUser);
     const dispatch = useDispatch();
-
-    // 🔹 הוספת סטייט לשליטה על ה-Drawer
     const [openSignIn, setOpenSignIn] = useState(false);
 
     return (
-        <nav>
-            <ul>
-                <li><Link to="">דף הבית </Link></li>
-                <li><Link to="/list">רשימת מוצרים </Link></li>
-                <li><Link to="/CartList">🧺</Link></li>
-                {cUser ? (
-                    <button onClick={() => dispatch(userOut())}>התנתקות</button>
-                ) : (
-                    <>
-                        <li><Link to="/SignUp">הרשמה</Link></li>
-                        <li><button onClick={() => setOpenSignIn(true)}>כניסה</button></li>
-                    </>
-                )}
+        <AppBar position="fixed" sx={{
+            backgroundColor: "white",
+            boxShadow: "none",
+            width: "80%",  // צמצום אורך ה-NavBar
+            left: "10%",  // מיקום ה-NavBar
+            top: 0,
+            borderBottom: "1px solid #ccc"
+        }}>
+            <Toolbar sx={{ width: "100%", height: 70, display: "flex", justifyContent: "space-between", padding: "0 20px" }}>
+                {/* Home Icon (on the right side) */}
+                <IconButton color="primary" component={Link} to="/CartList" sx={{ fontSize: 32, marginLeft: 2 }}>
+                    <ShoppingCartIcon />
+                </IconButton>
 
-                {cUser && cUser.role === "admin" && (<>
-                    <li><Link to="/AddProd">הוספת מוצר</Link></li>
-                    <li><Link to="/ApdateProd">עדכון מוצר</Link></li></>
-                )}
-            </ul>
+                {/* Menu Buttons */}
+                <Box sx={{ display: "flex", alignItems: "center" }}>
+
+                    {/* User Authentication */}
+                    {cUser ? (
+                        <Button color="primary" onClick={() => dispatch(userOut())} sx={{ fontSize: 18, marginLeft: 3 }}>התנתקות</Button>
+                    ) : (
+                        <>
+                            <Button color="primary" onClick={() => setOpenSignIn(true)} sx={{ fontSize: 18, marginLeft: 3 }}>כניסה</Button>
+                            <Button color="primary" component={Link} to="/SignUp" sx={{ fontSize: 18, marginLeft: 3 }}>הרשמה</Button>
+                        </>
+                    )}
+
+                    <Button color="primary" component={Link} to="/list" sx={{ fontSize: 18, marginLeft: 3 }}>רשימת מוצרים</Button>
+
+                    {/* Home Icon (on the left side) */}
+                    <IconButton edge="start" color="primary" component={Link} to="/" sx={{ fontSize: 32, marginLeft: 3 }}>
+                        <HomeIcon />
+                    </IconButton>
+                </Box>
+            </Toolbar>
             <SignIn open={openSignIn} onClose={() => setOpenSignIn(false)} />
-        </nav>
+        </AppBar>
     );
 };
 

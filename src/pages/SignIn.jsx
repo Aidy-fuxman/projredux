@@ -1,32 +1,39 @@
-import React from "react";
-import { Drawer, TextField, Button, IconButton, Typography, Box } from "@mui/material";
+import React, { useState } from "react";
+import { Drawer, TextField, Button, IconButton, Typography, Box, InputAdornment } from "@mui/material";
 import { getUserNamePassword_login } from "../api/userService";
 import { userIn } from '../features/userSlice';
 import CloseIcon from "@mui/icons-material/Close";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const SingIn = ({ open, onClose }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     let disp = useDispatch();
-    let navigate = useNavigate()
+    let navigate = useNavigate();
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => {
+        setShowPassword((prev) => !prev);
+    };
 
     const onSubmit = (data) => {
         getUserNamePassword_login(data).then(res => {
-            console.log(res.data)
-            alert("login successfuly")
-            disp(userIn(res.data))
+            console.log(res.data);
+            alert("login successfuly");
+            disp(userIn(res.data));
             onClose();
-            navigate("/ProdList")
+            navigate("/ProdList");
         }).catch(err => {
-            console.log(err)
+            console.log(err);
             alert(`Cannot login: ${err.message}`);
-        })
+        });
     };
 
     return (
-
         <Drawer
             anchor="left"
             open={open}
@@ -90,10 +97,25 @@ const SingIn = ({ open, onClose }) => {
                     <TextField
                         label="סיסמה"
                         variant="outlined"
-                        type="password"
-                        {...register("password", { required: "נא להזין סיסמה", minLength: { value: 6, message: "סיסמה חייבת להכיל לפחות 6 תווים" } })}
+                        type={showPassword ? "text" : "password"}
+                        {...register("password", { 
+                            required: "נא להזין סיסמה", 
+                            minLength: { value: 6, message: "סיסמה חייבת להכיל לפחות 6 תווים" } 
+                        })}
                         error={!!errors.password}
                         helperText={errors.password?.message}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
 
                     {/* שכחתם את הסיסמה? */}
@@ -112,7 +134,7 @@ const SingIn = ({ open, onClose }) => {
                 </Box>
             </Box>
         </Drawer>
-
     );
-}
+};
+
 export default SingIn;
