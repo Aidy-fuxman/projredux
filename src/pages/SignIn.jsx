@@ -20,18 +20,35 @@ const SingIn = ({ open, onClose }) => {
         setShowPassword((prev) => !prev);
     };
 
+    // const onSubmit = (data) => {
+    //     getUserNamePassword_login(data).then(res => {
+    //         console.log(res.data);
+    //         alert("login successfuly");
+    //         disp(userIn(res.data));
+    //         onClose();
+    //         navigate("/ProdList");
+    //     }).catch(err => {
+    //         console.log(err);
+    //         alert("cannot login"+ err.response?.data?.message);
+    //     });
+    // };
     const onSubmit = (data) => {
-        getUserNamePassword_login(data).then(res => {
-            console.log(res.data);
-            alert("login successfuly");
-            disp(userIn(res.data));
-            onClose();
-            navigate("/ProdList");
-        }).catch(err => {
-            console.log(err);
-            alert(`Cannot login: ${err.message}`);
-        });
+        console.log("🔹 Data being sent:", data); // מדפיס את הנתונים שנשלחים
+        getUserNamePassword_login(data)
+            .then(res => {
+                console.log("✅ Response:", res.data);
+                alert("Login successful!");
+                disp(userIn(res.data));
+                onClose();
+                navigate("/ProdList");
+            })
+            .catch(err => {
+                console.log("❌ Error:", err);
+                console.log("❌ Server Response:", err.response?.data);
+                alert("Cannot login: " + (err.response?.data?.message || "Unknown error"));
+            });
     };
+    
 
     return (
         <Drawer

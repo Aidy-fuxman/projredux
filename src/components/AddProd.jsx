@@ -3,25 +3,29 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { addProd } from '../features/prodSlice';
 import { TextField, Button, Box, Typography, Grid } from '@mui/material';
-import {addProduct} from '../api/prodService'
+import { addProduct } from '../api/prodService'
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const AddProd = () => {
+
+    let currentUser = useSelector(state => state.user.currentUser)
     const { register, handleSubmit, formState: { errors } } = useForm();
     const dispatch = useDispatch();
-    const navigate=useNavigate();
+    const navigate = useNavigate();
 
     // פונקציה לשליחת הטופס
     const onSubmit = (data) => {
-        addProduct(data).then(res=>{
+        addProduct({ data }, currentUser?.token).then(res => {
             console.log(res.data)
             alert("added successfuly")
             dispatch(addProd(data));
             navigate("/prodList")
         }).catch(err => {
             console.log(err)
-            alert("cannot add")})
-       
+            alert("cannot add" + err.response?.data?.message)
+        })
+
     };
     return (
         <Box
@@ -113,7 +117,7 @@ const AddProd = () => {
                     </Grid>
 
                     <Grid item xs={12}>
-                        <Button 
+                        <Button
                             type="submit"
                             variant="contained"
                             fullWidth

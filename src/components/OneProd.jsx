@@ -6,11 +6,6 @@ const OneProd = ({ prod, isInCart }) => {
 
     return (
         <div>
-            {/* שינוי ל<a> עם href ו-target="_blank" */}
-            {/* <a href={`/ProdDeatails/${prod._id}`} target="_blank">
-                <h2>{prod.prodName}</h2>
-            </a> */}
-            
             <img src={prod.imageUrl} alt={prod.prodName} />
             <h2>{prod.price} ₪</h2>
 
@@ -25,9 +20,14 @@ const OneProd = ({ prod, isInCart }) => {
                     </button>
                 </div>
             ) : (
-                <input type="button" value="Add to cart" onClick={(e) =>{
-                    e.preventDefault()
-                     disp(add(prod))}} />
+                <input
+                    type="button"
+                    value="Add to cart"
+                    onClick={(e) => {
+                        e.preventDefault(); // מונע את התגובה ברירת המחדל
+                        disp(add(prod));
+                    }}
+                />
             )}
         </div>
     );
