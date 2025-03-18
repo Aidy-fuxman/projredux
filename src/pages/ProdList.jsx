@@ -45,7 +45,15 @@ const ProdList = () => {
             {/* <Typography variant="h4" align="center" gutterBottom>רשימת מוצרים</Typography> */}
 
             <Grid container spacing={4}>
-                {status === "pending" ? <CircularProgress /> :
+                {status === "pending" ?
+                    <Grid
+                        container
+                        justifyContent="center"
+                        alignItems="center"
+                        style={{ minHeight: '100vh' }} // מוודא שהעיגול יהיה במרכז המסך
+                    >
+                        <CircularProgress />
+                    </Grid> :
                     arr.map(item => (
                         <Grid item xs={12} sm={6} md={4} key={item._id}>
                             <OneProd prod={item} isInCart={false} onDelete={onDelete} />

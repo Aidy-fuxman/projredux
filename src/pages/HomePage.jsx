@@ -85,20 +85,20 @@ import "../styles/HomePage.css";
 import Typography from '@mui/material/Typography';
 
 // ייבוא התמונות מהתיקייה assets
-import image1 from "../assets/image1.jpg";
-import image2 from "../assets/image2.jpg";
-import image3 from "../assets/image3.jpg";
-import image4 from "../assets/image4.jpg";
-import profile1 from "../assets/profil1.jpg";
-import profile2 from "../assets/profil2.jpg";
-import profile3 from "../assets/profil3.jpg";
-import profile4 from "../assets/profil4.jpg";
+import image1 from "/image1.jpg";
+import image2 from "/image2.jpg";
+import image3 from "/image3.jpg";
+import image4 from "/image4.jpg";
+import profile1 from "/profil1.jpg";
+import profile2 from "/profil2.jpg";
+import profile3 from "/profil3.jpg";
+import profile4 from "/profil4.jpg";
 
 const reviews = [
-    { id: 1, text: "שירות מדהים ואיכות גבוהה!", author: "דנה", profile: profile1 },
-    { id: 2, text: "המוצרים היו בדיוק מה שחיפשתי!", author: "אורי", profile: profile2 },
-    { id: 3, text: "משלוח מהיר ושירות מעולה!", author: "נטע", profile: profile3 },
-    { id: 4, text: "מוצרים באיכות גבוה סטייל ורמה מעולה", author: "סלע", profile: profile4 },
+    { id: 1, text: "!שירות מדהים ואיכות גבוהה", author: "דנה", profile: profile1 },
+    { id: 2, text: "!המוצרים היו בדיוק מה שחיפשתי", author: "אורי", profile: profile2 },
+    { id: 3, text: "!משלוח מהיר ושירות מעולה", author: "נטע", profile: profile3 },
+    { id: 4, text: "!!!!! מוצרים באיכות גבוה סטייל ורמה מעולה", author: "סלע", profile: profile4 },
 ];
 
 const HomePage = () => {

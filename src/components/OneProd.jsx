@@ -172,7 +172,7 @@ const OneProd = ({ prod, isInCart, onDelete }) => {
             <Link to={`/list/ProdDeatails/${prod._id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
                 <CardMedia
                     component="img"
-                    image={`src/assets/${prod.imageUrl}`} 
+                    image={`/${prod.imageUrl}`} 
                     alt={prod.prodName}
                     sx={{
                         width: '100%',
@@ -194,15 +194,8 @@ const OneProd = ({ prod, isInCart, onDelete }) => {
             </Link>
 
             {isInCart ? (
-                // <div>
-                //     <span>{prod.price * prod.cnt}</span>
-                //     <button onClick={() => dispatch(decrease(prod))}>-</button>
-                //     <span>{prod.cnt}</span>
-                //     <button onClick={() => dispatch(add(prod))}>+</button>
-                //     <button onClick={() => dispatch(removeFromCart(prod))}>Remove from cart</button>
-                // </div>
                 <div>
-                <Typography variant="h6" sx={{ color: 'green', fontWeight: 'bold', marginBottom: 1 }}>
+                <Typography variant="h6" sx={{ color: 'black', fontWeight: 'bold', marginBottom: 1 }}>
                     סה"כ: ₪ {prod.price * prod.cnt} 
                 </Typography>
                 <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">

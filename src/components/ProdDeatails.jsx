@@ -40,50 +40,10 @@ const ProdDeatails = () => {
     };
 
 
-    // const prod = useSelector(state => state.products.arrProd.find(p => p._id === id));
-    // const prod = getProductById(id);
-
-
     if (loading) return <CircularProgress />;
     if (error) return <h2>{error}</h2>;
     if (!prod) return <h2>מוצר לא נמצא</h2>;
 
-    // return (
-    //     <div className="container">
-    //         <div className="inner">
-    //             <h1>{prod.prodName}</h1> 
-    //             <img src={`src/assets/${prod.imageUrl}`} alt={prod.prodName} />
-    //             <h2>מחיר: {prod.price} ₪</h2>
-    //             <p>חומרים: {prod.materials}</p>
-    //             <p>משקל: {prod.weight}</p>
-    //             <p>תיאור: {prod.description}</p>
-    //             <p>נוצר ב: {prod.madeIn}</p>
-    //             <p> תאריך יצור: {prod.dateOfCreation}</p>
-    //             <button onClick={() => navigate(-1)}>חזור</button>
-    //         </div>
-
-    //         <Button
-    //              onClick={() => {
-    //                 disp(add(prod));
-    //                 handleDrawerToggle(true); // פותחים את ה-Drawer
-    //             }}
-    //             style={{
-    //                 background: '#1C3959',
-    //                 color: "#FFFFFF",
-    //                 width: '150px',
-    //                 height: '30px',
-    //                 borderRadius: '5px',
-    //                 opacity: 1,
-    //                 boxSizing: 'border-box',
-    //                 border: '1px solid #1C3959',
-    //                 marginTop: '-10px',
-    //             }}
-    //         >
-    //             הוסף לסל
-    //         </Button>
-    //         <CartDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
-    //     </div>
-    // );
     return(
     <div className="container">
     <div className="inner">
