@@ -1,61 +1,86 @@
 
+
 import { useEffect, useState } from "react";
 import { getAllProduct, getTotalPages } from "../api/prodService";
-import { CircularProgress } from '@mui/material';
+import { CircularProgress, Grid, Card, CardContent, Typography, Button, Stack, Container } from '@mui/material';
 import OneProd from '../components/OneProd';
-import { setArrProd } from "../features/prodSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, Outlet } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Outlet } from "react-router-dom";
 
 const ProdList = () => {
     let [arr, setArr] = useState([]);
     let [status, setStatus] = useState("init");
-    let [totalPages, setTotalPages] = useState(3);
+    let [currentPage, setCurrentPage] = useState(1);
+    let [totalPages, setTotalPages] = useState();
     let dispatch = useDispatch();
-    const products = useSelector(state => state.products.arrProd);
+
+    function onDelete(id) {
+        let copy = arr.filter(item => item._id !== id)
+        setArr(copy)
+    }
 
     useEffect(() => {
-        setStatus('pending')
-        getAllProduct(1).then(res => {
-            console.log(res);
+        setStatus('pending');
+        getAllProduct(currentPage).then(res => {
             setArr(res.data);
-            dispatch(setArrProd(res.data));
         }).catch(err => {
-            console.log(err)
-            alert("Cannot load the products")
+            console.log(err);
+            alert("Cannot load the products");
         }).finally(() => {
-            setStatus("finish")
-        })
+            setStatus("finish");
+        });
+    }, [currentPage]);
 
+    useEffect(() => {
         getTotalPages().then(res => {
             setTotalPages(res.data.pages);
         }).catch(err => {
-            console.log(err)
-            alert("cannot load the total pages")
-        })
-    }, []);
-
-    useEffect(() => {
-        setArr(products); // עדכון המוצרים מ-Redux
-    }, [products]); // כל פעם ש-Redux יתעדכן, גם המוצרים ב-state יתעדכנו.
-
-    let arrBtnPgs = [];
-    for (let i = 1; i < totalPages; i++) {
-        arrBtnPgs.push(<input key={i} type="button" value={i} onClick={() => { }} />);
-    };
+            console.log(err);
+            alert("Cannot load the total pages");
+        });
+    }, [arr]);
 
     return (
-        <div>
-            <h1>list of products</h1>
-            {arrBtnPgs}
-            {status === "pending" ? <CircularProgress />
-                : arr.map(item => <li key={item._id}>
-                    <Link to={`ProdDeatails/${item._id}`}>
-                        <OneProd prod={item} isInCart={false} />
-                    </Link>
-                </li>)}
+        <Container maxWidth="lg">
+            {/* <Typography variant="h4" align="center" gutterBottom>רשימת מוצרים</Typography> */}
+
+            <Grid container spacing={4}>
+                {status === "pending" ? <CircularProgress /> :
+                    arr.map(item => (
+                        <Grid item xs={12} sm={6} md={4} key={item._id}>
+                            <OneProd prod={item} isInCart={false} onDelete={onDelete} />
+                        </Grid>
+                    ))
+                }
+            </Grid>
+            <Stack direction="row" spacing={1} justifyContent="center" marginBottom={2}>
+                {[...Array(totalPages)].map((_, i) => (
+                    <Button
+                        key={i + 1}
+                        variant="contained"
+                        onClick={() => setCurrentPage(i + 1)}
+                        sx={{
+                            width: 50,
+                            height: 50,
+                            minWidth: 50,
+                            borderRadius: "50%",
+                            backgroundColor: currentPage === i + 1 ? "black" : "transparent",
+                            color: currentPage === i + 1 ? "white" : "black",
+                            fontSize: "20px", // הגדלת גודל המספר
+                            fontWeight: "bold",
+                            boxShadow: "none", // ללא צל
+                            "&:hover": {
+                                backgroundColor: "black",
+                                color: "white",
+                            },
+                        }}
+                    >
+                        {i + 1}
+                    </Button>
+                ))}
+            </Stack>
             <Outlet />
-        </div>
+        </Container>
     );
 }
 

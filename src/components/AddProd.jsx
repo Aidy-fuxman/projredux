@@ -16,10 +16,10 @@ const AddProd = () => {
 
     // פונקציה לשליחת הטופס
     const onSubmit = (data) => {
-        addProduct({ data }, currentUser?.token).then(res => {
+        addProduct(data, currentUser?.token).then(res => {
             console.log(res.data)
             alert("added successfuly")
-            dispatch(addProd(data));
+            // dispatch(addProd(data));
             navigate("/prodList")
         }).catch(err => {
             console.log(err)

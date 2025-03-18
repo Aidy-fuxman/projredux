@@ -1,92 +1,149 @@
-import { useParams, useNavigate } from "react-router-dom";
+
+
+import { useParams, useNavigate, useOutletContext } from "react-router-dom";
 import { useSelector } from "react-redux";
-import "../styles/ProdDeatails.css";
-import { Button, Drawer, IconButton } from '@mui/material';
+import { Button, CircularProgress } from '@mui/material';
 import React from "react";
-import CloseIcon from '@mui/icons-material/Close';
-import { add, removeFromCart, decrease } from '../features/cartSlice';
+import { add } from '../features/cartSlice';
 import { useDispatch } from 'react-redux';
-import CartList from '../pages/CartList';
-
-
-
+import { useState } from "react";
+import CartDrawer from "../components/CartDrawer";
+import "../styles/ProdDeatails.css"
+import { getProductById } from "../api/prodService";
+import { useEffect } from "react";
+import {  IconButton, Typography, Box } from '@mui/material';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBack';
 
 const ProdDeatails = () => {
+    const [prod, setProd] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const { id } = useParams();
     const navigate = useNavigate();
-    const [state, setState] = React.useState({
-        left: false,
-    });
-
     const disp = useDispatch();
+    // סטייט לשליטה בפתיחה/סגירה של ה-Drawer
+    const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    useEffect(() => {
+        setLoading(true);
+        getProductById(id)
+            .then(res => setProd(res.data))
+            .catch(err => setError("המוצר לא נמצא או שגיאה בשרת"))
+            .finally(() => setLoading(false));
+    }, [id]);
 
-    const toggleDrawer = (open) => () => {
-        setState({ left: open });
+
+
+    // פונקציה לפתיחת וסגירת ה-Drawer
+    const handleDrawerToggle = (open) => {
+        setIsDrawerOpen(open);
     };
 
-    // מחפשים את המוצר לפי ה-id מתוך ה-Redux store
-    const prod = useSelector(state => state.products.arrProd.find(p => p._id === id));
 
-    if (!prod) {
-        return <h2>מוצר לא נמצא</h2>;
-    }
+    // const prod = useSelector(state => state.products.arrProd.find(p => p._id === id));
+    // const prod = getProductById(id);
 
-    return (
-        <div className="container">
-            <div className="inner">
-                <h1>{prod.prodName}</h1>
-                <img src={prod.imageUrl} alt={prod.prodName} />
-                <h2>מחיר: {prod.price} ₪</h2>
-                <p>חומרים: {prod.materials}</p>
-                <p>משקל: {prod.weight}</p>
-                <p>תיאור: {prod.description}</p>
-                <p>נוצר ב: {prod.madeIn}</p>
-                <p> תאריך יצור: {prod.dateOfCreation}</p>
-                <button onClick={() => navigate(-1)}>חזור</button>
-            </div>
 
-            <Drawer anchor="left" open={state.left}>
-                <div style={{
-                    position: 'relative',
-                    width: '440px',
-                    maxWidth: '100%',
-                    height: '100vh',
-                    padding: '20px',
-                    paddingRight: '15px',
-                    boxSizing: 'border-box',
-                    overflowY: 'auto',
-                    overflowX: 'hidden'
-                }}>
-                    <IconButton
-                        onClick={toggleDrawer(false)}
-                        style={{ position: 'absolute', top: '10px', right: '0', zIndex: 1000 }}
-                    >
-                        <CloseIcon />
-                    </IconButton>
-                </div>
-                <CartList/>
-            </Drawer>
+    if (loading) return <CircularProgress />;
+    if (error) return <h2>{error}</h2>;
+    if (!prod) return <h2>מוצר לא נמצא</h2>;
+
+    // return (
+    //     <div className="container">
+    //         <div className="inner">
+    //             <h1>{prod.prodName}</h1> 
+    //             <img src={`src/assets/${prod.imageUrl}`} alt={prod.prodName} />
+    //             <h2>מחיר: {prod.price} ₪</h2>
+    //             <p>חומרים: {prod.materials}</p>
+    //             <p>משקל: {prod.weight}</p>
+    //             <p>תיאור: {prod.description}</p>
+    //             <p>נוצר ב: {prod.madeIn}</p>
+    //             <p> תאריך יצור: {prod.dateOfCreation}</p>
+    //             <button onClick={() => navigate(-1)}>חזור</button>
+    //         </div>
+
+    //         <Button
+    //              onClick={() => {
+    //                 disp(add(prod));
+    //                 handleDrawerToggle(true); // פותחים את ה-Drawer
+    //             }}
+    //             style={{
+    //                 background: '#1C3959',
+    //                 color: "#FFFFFF",
+    //                 width: '150px',
+    //                 height: '30px',
+    //                 borderRadius: '5px',
+    //                 opacity: 1,
+    //                 boxSizing: 'border-box',
+    //                 border: '1px solid #1C3959',
+    //                 marginTop: '-10px',
+    //             }}
+    //         >
+    //             הוסף לסל
+    //         </Button>
+    //         <CartDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+    //     </div>
+    // );
+    return(
+    <div className="container">
+    <div className="inner">
+        <Typography variant="h4" component="h2" sx={{ fontWeight: 'bold', marginBottom: '16px' }}>
+            {prod.prodName}
+        </Typography>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', color: '#1C3959', marginBottom: '8px' }}>
+            מחיר: {prod.price} ₪
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: '8px' }}>
+            <strong>חומרים:</strong> {prod.materials}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: '8px' }}>
+            <strong>משקל:</strong> {prod.weight}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: '8px' }}>
+            <strong>תיאור:</strong> {prod.description}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: '8px', direction: 'rtl', textAlign: 'right' }}>
+            <strong>נוצר ב:</strong> {prod.madeIn}
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: '16px' }}>
+            <strong>תאריך יצור:</strong> {new Date(prod.dateOfCreation).toLocaleDateString('he-IL', { year: 'numeric', month: 'numeric', day: 'numeric' })}
+        </Typography>
+        
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            {/* כפתור חזרה עם חץ מעלה */}
+            <IconButton onClick={() => navigate(-1)} sx={{ color: '#1C3959', fontSize: '24px' }}>
+                <ArrowBackIosIcon />
+            </IconButton>
+
+            {/* כפתור הוסף לסל */}
             <Button
                 onClick={() => {
-                    toggleDrawer(true)(); 
-                    disp(add(prod)); 
+                    disp(add(prod));
+                    handleDrawerToggle(true); // פותחים את ה-Drawer
                 }}
-                style={{
-                    background: '#1C3959',
-                    color: "#FFFFFF",
-                    width: '150px',
-                    height: '30px',
+                sx={{
+                    backgroundColor: 'black',
+                    color: '#FFFFFF',
+                    width: '200px',
+                    height: '40px',
                     borderRadius: '5px',
-                    opacity: 1,
-                    boxSizing: 'border-box',
-                    border: '1px solid #1C3959',
-                    marginTop: '-10px',
+                    fontWeight: 'bold',
+                    '&:hover': {
+                        backgroundColor: '#163b56',
+                    }
                 }}
+                startIcon={<AddShoppingCartIcon />}
             >
                 הוסף לסל
             </Button>
-        </div>
-    );
-};
+        </Box>
+    </div>
+
+    <div className="product-image">
+        <img src={`/${prod.imageUrl}`} alt={prod.prodName} style={{ maxWidth: '100%', borderRadius: '10px' }} />
+    </div>
+
+    <CartDrawer isOpen={isDrawerOpen} onClose={() => setIsDrawerOpen(false)} />
+</div>)};
 
 export default ProdDeatails;

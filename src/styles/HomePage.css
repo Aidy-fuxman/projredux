@@ -1,5 +1,5 @@
-/* הסטיילים הבסיסיים של הודעות */
-.message {
+/* 
+ .message {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -24,14 +24,13 @@
     object-fit: cover;
 }
 
-/* אנימציה להודעה שמקפצת מימין לשמאל */
-.show-right-to-left {
+
+ .show-right-to-left {
     opacity: 1;
     transform: translateX(0);
 }
 
-/* אנימציה להודעה שמקפצת משמאל לימין */
-.show-left-to-right {
+ .show-left-to-right {
     opacity: 1;
     transform: translateX(0);
 }
@@ -143,4 +142,185 @@
 }
 #title{
     margin-top: 10%;
+}  
+  */
+  /* הסטיילים הבסיסיים של הודעות */
+.message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 1s ease-in-out;
+    margin-bottom: 20px;
 }
+
+.message p {
+    font-size: 18px;
+    margin-left: 20px;
+    color: #333;
+    max-width: 600px;
+    text-align: center;
+}
+
+.client-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: 2px solid white;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* אנימציה להודעה שמקפצת מימין לשמאל */
+.show-right-to-left {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* אנימציה להודעה שמקפצת משמאל לימין */
+.show-left-to-right {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.carousel-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 80vh;
+    /* top: 70px; */
+}
+
+.carousel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel img {
+    width: 100vw;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 30px;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    background: rgba(255, 255, 255, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: 50% 30px;
+    border-bottom-right-radius: 50% 30px;
+    clip-path: ellipse(80% 100% at center top);
+}
+
+.overlay h1 {
+    font-size: 42px;
+    font-weight: bold;
+    color: #4a3f35;
+    margin: 0;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    font-size: 2rem;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.left {
+    left: 10px;
+}
+
+.right {
+    right: 10px;
+}
+
+.content {
+    margin-top: 20px;
+    text-align: center;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+
+.reviews-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin-top: 40px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.reviews-title {
+    
+    font-size: 32px; /* גודל כותרת בולט יותר */
+    font-weight: 700; /* עבה מאוד */
+    color: #4a3f35; /* צבע שמחובר לעיצוב עץ וריהוט */
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase; /* הופך לאותיות גדולות כדי לתת תחושה יותר סולידית */
+    letter-spacing: 2px; /* רווח בין אותיות למראה יותר מסודר */
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2); /* תוספת של צללית רכה */
+}
+
+.review-box {
+    position: relative;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+    max-width: 90%;
+    min-height: 120px;
+    width: 100%;
+    text-align: center;
+    /* background: linear-gradient(135deg,  #dabea5,#FAEBD7); */
+    transition: transform 0.3s ease-in-out;
+    background:white;
+    /* border: #4a3f35 2px solid; */
+}
+
+.review-box:hover {
+    transform: scale(1.05);
+}
+
+.review-text {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    /* margin-top: 10px; */
+}
+
+.review-author {
+    /* margin-top: 10px; */
+    font-size: 16px;
+    color: #555;
+    font-style: italic;
+}
+
+/* #title {
+    margin-top: 10%;
+} */

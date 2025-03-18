@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-
+import { saveToLocalStorage } from "../utils/storage";
 const SingIn = ({ open, onClose }) => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     let disp = useDispatch();
@@ -20,36 +20,22 @@ const SingIn = ({ open, onClose }) => {
         setShowPassword((prev) => !prev);
     };
 
-    // const onSubmit = (data) => {
-    //     getUserNamePassword_login(data).then(res => {
-    //         console.log(res.data);
-    //         alert("login successfuly");
-    //         disp(userIn(res.data));
-    //         onClose();
-    //         navigate("/ProdList");
-    //     }).catch(err => {
-    //         console.log(err);
-    //         alert("cannot login"+ err.response?.data?.message);
-    //     });
-    // };
+
+   
+    
     const onSubmit = (data) => {
-        console.log("🔹 Data being sent:", data); // מדפיס את הנתונים שנשלחים
         getUserNamePassword_login(data)
             .then(res => {
-                console.log("✅ Response:", res.data);
-                alert("Login successful!");
                 disp(userIn(res.data));
+                saveToLocalStorage("user", res.data);
                 onClose();
                 navigate("/ProdList");
             })
             .catch(err => {
-                console.log("❌ Error:", err);
-                console.log("❌ Server Response:", err.response?.data);
                 alert("Cannot login: " + (err.response?.data?.message || "Unknown error"));
             });
     };
     
-
     return (
         <Drawer
             anchor="left"

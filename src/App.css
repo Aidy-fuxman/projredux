@@ -3,6 +3,10 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  
+}
+body{
+  padding-top: 80px;
 }
 
 /* .logo {

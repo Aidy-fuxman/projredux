@@ -27,10 +27,12 @@ const prodSlice = createSlice({
             const newProduct = { ...action.payload, id: lastProductId + 1 }; // אם אין מוצרים, id יתחיל מ-1
             state.arrProd.push(newProduct); // מוסיפים את המוצר החדש
         },
+       
         removeProd: (state, action) => {
-            let index = state.arrProd.findIndex(item => item.id == action.payload);
-            state.arrProd.splice(index, 1)
+            state.arrProd = state.arrProd.filter(item => item._id !== action.payload);
         },
+        
+        
         updateProd: (state, action) => {
             let index = state.arrProd.findIndex(item => item.id === action.payload.id);
             if (index !== -1) {
