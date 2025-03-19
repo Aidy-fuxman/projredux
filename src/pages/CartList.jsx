@@ -1,5 +1,5 @@
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import OneProd from '../components/OneProd';
 import { Grid, Container, Typography, Box, Card, CardContent, Divider, Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -14,7 +14,7 @@ const CartList = ({ isSmallCart }) => {
     const qtyInCart = useSelector((state) => state.cart.qtyInCart);
     const sumOfCart = useSelector((state) => state.cart.sumOfCart);
     const navigate = useNavigate();
-    const dis = useDispatch();
+    
 
     return (
         <Container maxWidth="lg">
@@ -29,7 +29,7 @@ const CartList = ({ isSmallCart }) => {
             </>
             ) : (
                 <>
-                    {/* אם זה סל קטן, נציג מוצר אחד בשורה, אחרת שלושה בשורה */}
+                    
                     <Grid container spacing={isSmallCart ? 2 : 4}>
                         {cartItems.map((item, index) => (
                             <Grid item xs={12} sm={6} md={isSmallCart ? 12 : 4} key={index}>

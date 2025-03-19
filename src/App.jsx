@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './App.css';
+import './App.scss';
 import ProdList from '../src/pages/ProdList';
 import SignUp from '../src/pages/SignUp';
 import SignIn from '../src/pages/SignIn';
@@ -27,7 +27,7 @@ function App() {
       dispatch(userIn(savedUser));
     }
   }, []);
-// }, [dispatch]);
+
 
 
  

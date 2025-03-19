@@ -32,7 +32,7 @@ const SingIn = ({ open, onClose }) => {
                 navigate("/ProdList");
             })
             .catch(err => {
-                alert("Cannot login: " + (err.response?.data?.message || "Unknown error"));
+                alert("Cannot login: " + (err.response?.data?.message || " Unknown error"));
             });
     };
     
@@ -41,7 +41,7 @@ const SingIn = ({ open, onClose }) => {
             anchor="left"
             open={open}
             onClose={onClose}
-            sx={{ pointerEvents: 'auto' }} // הוסף את זו אם הבעיה עדיין נמשכת
+            sx={{ pointerEvents: 'auto' }} 
         >
             <Box
                 sx={{
@@ -53,7 +53,7 @@ const SingIn = ({ open, onClose }) => {
                     height: "100%",
                 }}
             >
-                {/* כפתור סגירה (X) */}
+              
                 <IconButton
                     onClick={onClose}
                     sx={{
@@ -65,7 +65,7 @@ const SingIn = ({ open, onClose }) => {
                     <CloseIcon />
                 </IconButton>
 
-                {/* כותרת */}
+                
                 <Box sx={{ textAlign: "center", mt: 4, mb: 2 }}>
                     <Typography variant="h5" component="h2">
                         היכנסו לחשבון שלכם
@@ -75,7 +75,7 @@ const SingIn = ({ open, onClose }) => {
                     </Typography>
                 </Box>
 
-                {/* טופס התחברות עם react-hook-form */}
+                
                 <Box
                     component="form"
                     onSubmit={handleSubmit(onSubmit)}
@@ -96,6 +96,7 @@ const SingIn = ({ open, onClose }) => {
                         })}
                         error={!!errors.userName}
                         helperText={errors.userName?.message}
+                        
                     />
                     <TextField
                         label="סיסמה"
@@ -121,12 +122,12 @@ const SingIn = ({ open, onClose }) => {
                         }}
                     />
 
-                    {/* שכחתם את הסיסמה? */}
+                    
                     <Typography variant="body2" color="primary" sx={{ cursor: "pointer" }}>
                         שכחתם את הסיסמה?
                     </Typography>
 
-                    {/* כפתור כניסה */}
+                   
                     <Button
                         type="submit"
                         variant="contained"

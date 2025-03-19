@@ -1,14 +1,11 @@
-
-
 import { useParams, useNavigate, useOutletContext } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { Button, CircularProgress } from '@mui/material';
 import React from "react";
 import { add } from '../features/cartSlice';
 import { useDispatch } from 'react-redux';
 import { useState } from "react";
 import CartDrawer from "../components/CartDrawer";
-import "../styles/ProdDeatails.css"
+import "../styles/ProdDeatails.scss"
 import { getProductById } from "../api/prodService";
 import { useEffect } from "react";
 import {  IconButton, Typography, Box } from '@mui/material';
@@ -22,7 +19,6 @@ const ProdDeatails = () => {
     const { id } = useParams();
     const navigate = useNavigate();
     const disp = useDispatch();
-    // סטייט לשליטה בפתיחה/סגירה של ה-Drawer
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     useEffect(() => {
         setLoading(true);
@@ -34,7 +30,7 @@ const ProdDeatails = () => {
 
 
 
-    // פונקציה לפתיחת וסגירת ה-Drawer
+    
     const handleDrawerToggle = (open) => {
         setIsDrawerOpen(open);
     };
@@ -75,11 +71,11 @@ const ProdDeatails = () => {
                 <ArrowBackIosIcon />
             </IconButton>
 
-            {/* כפתור הוסף לסל */}
+            
             <Button
                 onClick={() => {
                     disp(add(prod));
-                    handleDrawerToggle(true); // פותחים את ה-Drawer
+                    handleDrawerToggle(true); 
                 }}
                 sx={{
                     backgroundColor: 'black',

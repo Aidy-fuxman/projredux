@@ -5,22 +5,22 @@ import { useSelector } from "react-redux";
 import { Button, TextField } from "@mui/material";
 
 const UpdateProd = () => {
-    const { state } = useLocation(); // קבלת המוצר שנשלח עם הניווט
+    const { state } = useLocation(); 
     const navigate = useNavigate();
     let currentUser = useSelector(state => state.user.currentUser)
     const { register, handleSubmit, setValue } = useForm({
-        defaultValues: state || {} // הגדרת ברירת מחדל מהנתונים שהתקבלו
+        defaultValues: state || {} 
     });
 
     const onSubmit = async (data) => {
         try {
-            const token = currentUser?.token;  // קח את ה-token מאובייקט המשתמש
-            await updateProduct(state._id, data, token);  // שלח את ה-token
-            alert("Product updated successfully!");
-            navigate(-1); // חזרה לדף הקודם
+            const token = currentUser?.token;  
+            await updateProduct(state._id, data, token); 
+            alert("המוצר עודכן בהצלחה");
+            navigate(-1); 
         } catch (error) {
             console.error("Error updating product:", error.response?.data || error.message);
-            alert("Failed to update product.");
+            alert("בעיה בעדכון מוצר");
         }
     };
 

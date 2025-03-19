@@ -19,7 +19,7 @@ const SignUp = () => {
                 navigate("/prodList");
             })
             .catch(err => {
-                alert("cannot add");
+                alert("בעיה בהוספת משתמש למערכת");
             });
     };
 

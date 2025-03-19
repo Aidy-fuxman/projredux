@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { getAllProduct, getTotalPages } from "../api/prodService";
-import { CircularProgress, Grid, Card, CardContent, Typography, Button, Stack, Container } from '@mui/material';
+import { CircularProgress, Grid, Button, Stack, Container } from '@mui/material';
 import OneProd from '../components/OneProd';
-import { useDispatch } from "react-redux";
+
 import { Outlet } from "react-router-dom";
 
 const ProdList = () => {
@@ -12,7 +12,7 @@ const ProdList = () => {
     let [status, setStatus] = useState("init");
     let [currentPage, setCurrentPage] = useState(1);
     let [totalPages, setTotalPages] = useState();
-    let dispatch = useDispatch();
+   
 
     function onDelete(id) {
         let copy = arr.filter(item => item._id !== id)
@@ -25,7 +25,7 @@ const ProdList = () => {
             setArr(res.data);
         }).catch(err => {
             console.log(err);
-            alert("Cannot load the products");
+            alert("נכשל בהבאת הרהיטים");
         }).finally(() => {
             setStatus("finish");
         });
@@ -36,21 +36,19 @@ const ProdList = () => {
             setTotalPages(res.data.pages);
         }).catch(err => {
             console.log(err);
-            alert("Cannot load the total pages");
+            alert("נכשל בהבאת הדפים");
         });
     }, [arr]);
 
     return (
         <Container maxWidth="lg">
-            {/* <Typography variant="h4" align="center" gutterBottom>רשימת מוצרים</Typography> */}
-
             <Grid container spacing={4}>
                 {status === "pending" ?
                     <Grid
                         container
                         justifyContent="center"
                         alignItems="center"
-                        style={{ minHeight: '100vh' }} // מוודא שהעיגול יהיה במרכז המסך
+                        style={{ minHeight: '100vh' }} 
                     >
                         <CircularProgress />
                     </Grid> :
@@ -74,9 +72,9 @@ const ProdList = () => {
                             borderRadius: "50%",
                             backgroundColor: currentPage === i + 1 ? "black" : "transparent",
                             color: currentPage === i + 1 ? "white" : "black",
-                            fontSize: "20px", // הגדלת גודל המספר
+                            fontSize: "20px", 
                             fontWeight: "bold",
-                            boxShadow: "none", // ללא צל
+                            boxShadow: "none", 
                             "&:hover": {
                                 backgroundColor: "black",
                                 color: "white",
