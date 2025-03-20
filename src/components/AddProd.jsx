@@ -19,7 +19,7 @@ const AddProd = () => {
         addProduct(data, currentUser?.token).then(res => {
             console.log(res.data);
             alert("המוצר נוסף בהצלחה");
-            navigate("/prodList");
+            navigate("/list");
         }).catch(err => {
             console.log(err);
             alert("cannot add  " + err.response?.data?.message);
