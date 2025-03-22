@@ -1,22 +1,30 @@
+import { useState } from "react"; 
 import { useForm } from "react-hook-form";
 import { addUser_singUp } from "../api/userService";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { userIn } from '../features/userSlice';
 import { saveToLocalStorage } from "../utils/storage";
-import { TextField, Button, Container, Typography, Box, Tooltip } from "@mui/material";
+import { TextField, Button, Container, Typography, Box, Tooltip, IconButton, InputAdornment } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material"; 
 
 const SignUp = () => {
     let navigate = useNavigate();
     let { register, formState: { errors }, handleSubmit } = useForm();
     let disp = useDispatch();
 
+    const [showPassword, setShowPassword] = useState(false);
+
+    const handleClickShowPassword = () => {
+        setShowPassword(!showPassword);  
+    };
+
     const saveFunction = (data) => {
         addUser_singUp(data)
             .then(res => {
                 disp(userIn(res.data));
                 saveToLocalStorage("user", res.data);
-                navigate("/prodList");
+                navigate("/list");
             })
             .catch(err => {
                 alert("בעיה בהוספת משתמש למערכת");
@@ -56,12 +64,12 @@ const SignUp = () => {
                 />
                 {errors.email && <Typography color="error">{errors.email.message}</Typography>}
 
-                <Tooltip title="הסיסמה חייבת לכלול לפחות 6 תווים, אות אחת ומספר אחד.">
+                <Tooltip title="הסיסמה חייבת לכלול לפחות 6 תווים, אות אחת ומספר אחד ">
                     <TextField
                         fullWidth
                         variant="standard"
                         placeholder="הכנס סיסמה"
-                        type="password"
+                        type={showPassword ? "text" : "password"}  // מציג את הסיסמה או מסתיר אותה בהתאם ל-showPassword
                         {...register("password", {
                             required: { value: true, message: "זהו שדה חובה" },
                             minLength: { value: 6, message: "הסיסמה חייבת לכלול לפחות 6 תווים" },
@@ -73,6 +81,18 @@ const SignUp = () => {
                         inputRef={register("password").ref}
                         InputLabelProps={{ shrink: true }}
                         sx={{ mb: 2 }}
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
+                        }}
                     />
                 </Tooltip>
                 {errors.password && <Typography color="error">{errors.password.message}</Typography>}

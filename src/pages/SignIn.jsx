@@ -115,7 +115,7 @@ const SingIn = ({ open, onClose }) => {
                                         onClick={handleClickShowPassword}
                                         edge="end"
                                     >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        {showPassword ? <Visibility /> : <VisibilityOff />}
                                     </IconButton>
                                 </InputAdornment>
                             ),
